@@ -104,6 +104,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleVo.setId(article.getId().toString());
         log.info("arvoId:" + articleVo + "-----------" + "article" + article);
 
+        
         //转化一下日期
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm:ss"));
 
