@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,8 +61,16 @@ public class ArticleServiceImpl implements ArticleService {
                 pageParams.getYear(),
                 pageParams.getMonth());
         List<Article> records = articleIPage.getRecords();
-        return Result.success(records);
+        return Result.success(copyList(records));
 
+    }
+
+    private List<ArticleVo> copyList(List<Article> records) {
+        ArrayList<ArticleVo> articleVos = new ArrayList<>();
+        for (Article article : records) {
+            articleVos.add(copy(article, true, true,false,false));
+        }
+        return articleVos;
     }
 
     @Override
@@ -104,7 +113,6 @@ public class ArticleServiceImpl implements ArticleService {
         articleVo.setId(article.getId().toString());
         log.info("arvoId:" + articleVo + "-----------" + "article" + article);
 
-        
         //转化一下日期
         articleVo.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm:ss"));
 
