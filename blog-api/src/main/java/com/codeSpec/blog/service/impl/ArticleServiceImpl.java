@@ -61,14 +61,14 @@ public class ArticleServiceImpl implements ArticleService {
                 pageParams.getYear(),
                 pageParams.getMonth());
         List<Article> records = articleIPage.getRecords();
-        return Result.success(copyList(records));
+        return Result.success(copyList(records,true,true,false,false));
 
     }
 
-    private List<ArticleVo> copyList(List<Article> records) {
+    private List<ArticleVo> copyList(List<Article> records,boolean isTag,boolean isCategory,boolean isAuthor,boolean isBody) {
         ArrayList<ArticleVo> articleVos = new ArrayList<>();
         for (Article article : records) {
-            articleVos.add(copy(article, true, true,false,false));
+            articleVos.add(copy(article, isTag, isCategory,isAuthor,isBody));
         }
         return articleVos;
     }
@@ -77,20 +77,19 @@ public class ArticleServiceImpl implements ArticleService {
     public Result listHotArticle() {
 
         List<Article> articles = articleMapper.listHotArticle();
-        return Result.success(articles);
+        return Result.success(copyList(articles,false,false,false,false));
     }
 
     @Override
     public Result listNewArticle() {
 
         List<Article> articles = articleMapper.listNewArticle();
-        return Result.success(articles);
+        return Result.success(copyList(articles,false,false,false,false));
     }
 
     @Override
     public Result listArchives() {
         List<Archives> articles = articleMapper.listArchives();
-
         return Result.success(articles);
     }
 
